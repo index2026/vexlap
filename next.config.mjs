@@ -1,7 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/vexlap', // ضفنا السطر ده عشان يظبط مسارات الـ CSS والصور
+  basePath: '/vexlap',
+  assetPrefix: '/vexlap/', // السطر ده بيجبر الموقع يحمل الـ CSS من المسار الصح
   typescript: {
     ignoreBuildErrors: true,
   },
