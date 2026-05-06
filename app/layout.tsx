@@ -1,59 +1,25 @@
-import type { Metadata, Viewport } from 'next'
-import { Cairo } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import './globals.css';
+import type { Metadata } from 'next';
+import { Cairo } from 'next/font/google';
+import { Providers } from '@/components/providers';
+import { Toaster } from '@/components/ui/sonner';
 
-const cairo = Cairo({ 
-  subsets: ["arabic", "latin"],
-  variable: '--font-cairo'
-});
+const cairo = Cairo({ subsets: ['latin', 'arabic'], display: 'swap' });
 
 export const metadata: Metadata = {
-  title: 'VEXLAP - نظام إدارة الحضور والتقييم الذكي',
-  description: 'منصة متكاملة لإدارة الحضور والغياب وتقييم الطلاب باستخدام QR Code للمدارس والجامعات',
-  generator: 'v0.app',
-  keywords: ['حضور', 'غياب', 'تقييم طلاب', 'QR Code', 'منصة تعليمية', 'VEXLAP', 'إدارة مدارس'],
-}
+  title: 'VEXLAP — Smart School Attendance',
+  description: 'Multi-tenant RFID-based school attendance platform.',
+};
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  themeColor: '#ffffff',
-}
-
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode
-}>) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className="bg-background" suppressHydrationWarning>
-      <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              (function() {
-                try {
-                  var theme = localStorage.getItem('vexlap-theme');
-                  var lang = localStorage.getItem('vexlap-language');
-                  if (theme === 'dark') {
-                    document.documentElement.classList.add('dark');
-                  }
-                  if (lang === 'en') {
-                    document.documentElement.lang = 'en';
-                    document.documentElement.dir = 'ltr';
-                  }
-                } catch (e) {}
-              })();
-            `,
-          }}
-        />
-      </head>
-      <body className={`${cairo.variable} font-sans antialiased`}>
-        {children}
-        {process.env.NODE_ENV === 'production' && <Analytics />}
+    <html lang="ar" dir="rtl" suppressHydrationWarning>
+      <body className={cairo.className} suppressHydrationWarning>
+        <Providers>
+          {children}
+          <Toaster richColors position="top-center" />
+        </Providers>
       </body>
     </html>
-  )
+  );
 }
